@@ -115,6 +115,23 @@ h2{color:var(--bordo);font-size:clamp(26px,3vw,31px);margin:0 0 10px;line-height
 #graph .seg.wrong .seg-line{stroke:var(--mustard);stroke-dasharray:1 12;stroke-width:7}
 #graph .seg.wrong{cursor:default}
 
+.cards{display:grid;gap:8px;margin-top:10px}
+.card-s{font-family:var(--ui);font-size:18px;text-align:right;line-height:1.4;display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:14px;border:2px solid var(--border);background:#fff;color:var(--blue);cursor:grab;min-height:52px;touch-action:none;user-select:none;-webkit-user-select:none}
+.card-s:hover:not(:disabled){border-color:var(--blue)}
+.card-s .badge{flex:none;width:28px;height:28px;border-radius:50%;border:2px dashed #b9c3cf;display:grid;place-items:center;font-weight:700;font-size:16px}
+.card-s.sel{border-color:var(--bordo);background:rgba(131,32,88,.06);box-shadow:0 0 0 3px rgba(131,32,88,.15)}
+.card-s.lifted{opacity:.35}
+.card-s.matched{border-color:var(--green);background:rgba(109,181,128,.12);cursor:default}
+.card-s.matched .badge{background:var(--green);border:0;color:#fff}
+.card-s.extra{border-color:var(--mustard);background:rgba(231,185,118,.12);color:#6a7888;cursor:default;text-decoration:line-through;text-decoration-color:rgba(106,120,136,.5)}
+.card-s.extra .badge{background:var(--mustard);border:0;color:var(--blue)}
+.card-s.ghost{position:fixed;z-index:50;pointer-events:none;cursor:grabbing;box-shadow:0 8px 24px rgba(23,54,94,.25);border-color:var(--bordo)}
+.card-s.shake{animation:shake .35s}
+@keyframes shake{25%{transform:translateX(-5px)}75%{transform:translateX(5px)}}
+#graph .seg.armed .seg-line{stroke:#8a9bb0}
+#graph .seg.over .seg-line,#graph .seg.armed:hover .seg-line{stroke:var(--bordo)}
+#graph .seg-badge circle{fill:var(--green);stroke:#fff;stroke-width:3}
+#graph .seg-badge text{fill:#fff;font-family:var(--ui);font-weight:700;font-size:17px}
 dialog{border:0;border-radius:var(--radius);padding:26px 28px;max-width:600px;color:var(--blue);font-family:var(--ui)}
 dialog::backdrop{background:rgba(23,54,94,.35)}
 dialog ul{padding-inline-start:20px}
@@ -164,7 +181,7 @@ dialog li img{width:26px;height:26px;vertical-align:middle;margin-inline-end:4px
     <p>גרף מספר סיפור. במשחק הזה תלמדו לקרוא אותו.</p>
     <div class="intro-parts">
       <div><b>בחלק הראשון</b> מופיע גרף. בחרו את הסיפור שמתאר אותו.</div>
-      <div><b>בחלק השני</b> מופיע סיפור. לחצו בגרף על הקטע שמתאים לחלק המודגש.</div>
+      <div><b>בחלק השני</b> מופיעים משפטים מסיפור. התאימו כל משפט לקטע בגרף — משפט אחד לא מתאים לאף קטע.</div>
     </div>
     <p style="margin-top:16px">12 משימות. אפשר לנסות שוב עד שמצליחים.</p>
     <div class="actions">
@@ -206,7 +223,7 @@ dialog li img{width:26px;height:26px;vertical-align:middle;margin-inline-end:4px
     <img class="trophy" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIiB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCI+CiAgPGNpcmNsZSBjeD0iNTAiIGN5PSI1MCIgcj0iNDgiIGZpbGw9IiMxMzM4NjMiIC8+CiAgPCEtLSBTbW9vdGggcm91bmRlZC1jb3JuZXIgNS1wb2ludGVkIHN0YXIgLS0+CiAgPHBhdGggZD0iTSA1MCAxOCAKICAgICAgICAgICBMIDU4IDM1IEwgNzcgMzYgTCA2MyA0OSBMIDY4IDY3IEwgNTAgNTggTCAzMiA2NyBMIDM3IDQ5IEwgMjMgMzYgTCA0MiAzNSBaIiAKICAgICAgICBmaWxsPSJub25lIiBzdHJva2U9IiNGRkZGRkYiIHN0cm9rZS13aWR0aD0iMy41IiBzdHJva2UtbGluZWpvaW49InJvdW5kIiBzdHJva2UtbGluZWNhcD0icm91bmQiIC8+Cjwvc3ZnPg==" alt="">
     <h2>חצי הדרך מאחוריכם!</h2>
     <p id="bridgeText"></p>
-    <p>עכשיו הכיוון מתהפך: קוראים סיפור, ומוצאים בגרף את הקטע שמתאים לחלק המודגש.</p>
+    <p>עכשיו הכיוון מתהפך: מתאימים כל משפט מהסיפור לקטע בגרף. שימו לב — משפט אחד לא מתאים לאף קטע!</p>
     <div class="actions"><button class="btn primary" id="bridgeBtn" type="button"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIiB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCI+CiAgPGNpcmNsZSBjeD0iNTAiIGN5PSI1MCIgcj0iNDgiIGZpbGw9IiMxMzM4NjMiIC8+CiAgPHBvbHlsaW5lIHBvaW50cz0iNTYsMjUgMzQsNDggNTYsNzEiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI0ZGRkZGRiIgc3Ryb2tlLXdpZHRoPSI0LjUiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIgLz4KPC9zdmc+" alt=""><span>ממשיכים</span></button></div>
   </div>
 </section>
@@ -303,28 +320,40 @@ const POOL1 = [
 ];
 
 /* ======================= מאגר 2: מסיפור לקטע ======================= */
-/* parts[i] מתאים לקטע i בגרף (מהקטע הראשון משמאל). */
+/* parts[i] מתאים לקטע i בגרף (מהקטע הראשון משמאל). המשפטים מוצגים מעורבבים, ולכן כל משפט
+   מתאים לקטע אחד בלבד לפי התוכן שלו (כיוון, קצב, מיקום) — לא לפי מילות סדר.
+   extra: משפט מסיח שלא מתאים לאף קטע, עם הסבר. */
 const POOL2 = [
  {id:'s1', y:'טמפרטורה', x:'שעות היום', pts:[[0,2],[3,6],[7,6],[10,3]],
-  parts:['בבוקר הטמפרטורה עלתה,','בצהריים היא נשארה קבועה,','ובערב התקרר והיא ירדה.']},
+  parts:['הטמפרטורה עלתה.','הטמפרטורה לא השתנתה.','התקרר, והטמפרטורה ירדה.'],
+  extra:{t:'הטמפרטורה עלתה שוב, בפעם השנייה.',fb:'בגרף יש רק קטע אחד שעולה.'}},
  {id:'s2', y:'כמות המים במכל', x:'זמן', pts:[[0,1],[3,2],[5,7],[10,7]],
-  parts:['בהתחלה המים זרמו למכל לאט.','אחר כך פתחו את הברז חזק, והמכל התמלא מהר.','לבסוף סגרו את הברז.']},
+  parts:['המים טפטפו למכל לאט.','פתחו את הברז חזק, והמכל התמלא מהר.','סגרו את הברז.'],
+  extra:{t:'פתחו את הפקק, ומים יצאו מהמכל.',fb:'מים שיוצאים מהמכל היו נראים כקטע <b>יורד</b>. בגרף אין קטע יורד.'}},
  {id:'s3', y:'מרחק מהעיר', x:'זמן', pts:[[0,0],[3,6],[6,6],[8,0],[10,0]],
-  parts:['משפחת כהן נסעה מהעיר אל חוף הים.','היא בילתה בחוף כמה שעות.','בדרך חזרה לעיר נסעו מהר יותר,','ובערב נשארו בבית.']},
- {id:'s4', y:'מרחק מקו הזינוק', x:'זמן', pts:[[0,0],[2,4],[7,6],[8,8]],
-  parts:['אלה התחילה לרוץ מהר.','באמצע הריצה היא התעייפה ורצה לאט.','בסוף היא האיצה בכל הכוח עד קו הסיום.']},
+  parts:['משפחת כהן נסעה מהעיר אל חוף הים.','המשפחה בילתה בחוף כמה שעות.','המשפחה נסעה חזרה לעיר.','המשפחה נחה בבית שבעיר.'],
+  extra:{t:'המשפחה עצרה בדרך לתדלק.',fb:'עצירה בדרך הייתה נראית כקטע אופקי <b>באמצע</b> עלייה או ירידה. אין כזה בגרף.'}},
+ {id:'s4', y:'מרחק מקו הזינוק', x:'זמן', pts:[[0,0],[3,3],[7,5],[8,8]],
+  parts:['אלה רצה בקצב רגיל.','אלה התעייפה ורצה לאט.','אלה האיצה בכל הכוח — הקצב הכי מהיר בריצה.'],
+  extra:{t:'אלה עצרה לשתות מים.',fb:'כשעוצרים, המרחק לא משתנה והגרף אופקי. בגרף הזה אין קטע אופקי.'}},
  {id:'s5', y:'טעינת הסוללה', x:'זמן', pts:[[0,8],[4,3],[6,3],[9,8]],
-  parts:['הטלפון של נועם היה טעון, והוא שיחק בו.','אחר כך נועם כיבה את הטלפון.','לבסוף חיבר אותו למטען.']},
+  parts:['נועם שיחק בטלפון, והסוללה התרוקנה.','הטלפון היה כבוי.','נועם חיבר את הטלפון למטען.'],
+  extra:{t:'הסוללה התרוקנה לגמרי.',fb:'הגרף אף פעם לא יורד עד הציר — הסוללה לא התרוקנה לגמרי.'}},
  {id:'s6', y:'כמות המים באמבטיה', x:'זמן', pts:[[0,0],[3,7],[6,7],[7,0]],
-  parts:['מילאו את האמבטיה במים.','יעל התרחצה.','בסוף פתחו את הפקק, והמים יצאו מהר.']},
+  parts:['מילאו את האמבטיה במים.','יעל התרחצה באמבטיה.','פתחו את הפקק, והמים יצאו מהר.'],
+  extra:{t:'המים יצאו מהאמבטיה לאט.',fb:'הקטע היורד <b>תלול מאוד</b> — המים יצאו מהר, לא לאט.'}},
  {id:'s7', y:'גובה המעלית', x:'זמן', pts:[[0,0],[2,3],[4,3],[6,7],[9,0]],
-  parts:['המעלית עלתה מקומת הקרקע.','היא עצרה כדי שאנשים ייכנסו.','אחר כך המשיכה לעלות עד הקומה העליונה.','משם ירדה בלי לעצור עד קומת הקרקע.']},
+  parts:['המעלית יצאה מקומת הקרקע ועלתה.','המעלית עצרה כדי שאנשים ייכנסו.','המעלית עלתה עד הקומה העליונה.','המעלית ירדה בלי לעצור עד קומת הקרקע.'],
+  extra:{t:'המעלית עצרה בקומה העליונה.',fb:'בנקודה הגבוהה ביותר הגרף מיד מתחיל לרדת — אין שם קטע אופקי.'}},
  {id:'s8', y:'גובה הצמח', x:'שבועות', pts:[[0,1],[4,2],[7,7],[10,7]],
-  parts:['בשבועות הראשונים הצמח גדל לאט.','אחר כך הוא גדל מהר.','בסוף הצמח הפסיק לגדול.']},
+  parts:['הצמח גדל לאט.','הצמח גדל מהר.','הצמח הפסיק לגדול.'],
+  extra:{t:'הצמח התייבש והתקצר.',fb:'אם הצמח היה מתקצר, הגרף היה <b>יורד</b>. בגרף אין קטע יורד.'}},
  {id:'s9', y:'מרחק מהבית', x:'זמן', pts:[[0,0],[3,4],[6,4],[10,0]],
-  parts:['אורן רכב על אופניים לבית של חבר.','הם שיחקו יחד בחצר.','אורן חזר הביתה לאט יותר, כי היה עייף.']},
+  parts:['אורן רכב על אופניים לבית של חבר.','אורן והחבר שיחקו יחד בחצר.','אורן רכב חזרה הביתה.'],
+  extra:{t:'אורן חזר הביתה מהר יותר מבדרך הלוך.',fb:'השוו את התלילות: הקטע היורד <b>מתון</b> יותר מהעולה, ולכן החזרה הייתה איטית יותר.'}},
  {id:'s10', y:'כסף בקופה', x:'חודשים', pts:[[0,1],[4,5],[6,5],[7,2],[10,2]],
-  parts:['רון חסך כסף בקופה.','במשך כמה חודשים הוא לא נגע בקופה.','אז קנה מתנה ליום ההולדת של אחותו.','אחר כך לא הוסיף ולא הוציא כסף.']},
+  parts:['רון חסך כסף בקופה.','הקופה הייתה מלאה, ורון לא נגע בה.','רון קנה מתנה ליום ההולדת של אחותו.','נשאר מעט כסף בקופה, ורון לא נגע בה.'],
+  extra:{t:'רון הוציא את כל הכסף מהקופה.',fb:'הגרף לא יורד עד הציר — נשאר כסף בקופה.'}},
 ];
 
 /* ======================= עזרים מתמטיים ======================= */
@@ -387,7 +416,7 @@ function draw6(pool,key){let prev=[];try{prev=JSON.parse(localStorage.getItem(ke
 let S=null;
 function newGame(){
   const t1=draw6(POOL1,'prisma-graphs-last1').map(q=>({kind:1,q,opts:shuffle([{t:q.ok,ok:true},...q.wrong.map(w=>({...w,ok:false}))])}));
-  const t2=draw6(POOL2,'prisma-graphs-last2').map(q=>({kind:2,q,target:Math.floor(Math.random()*q.parts.length)}));
+  const t2=draw6(POOL2,'prisma-graphs-last2').map(q=>({kind:2,q,cards:shuffle([...q.parts.map((t,i)=>({t,seg:i})),{t:q.extra.t,seg:-1,fb:q.extra.fb}])}));
   S={tasks:[...t1,...t2],i:0,coins:0,stars:0,streak:0,best:0,seconds:0,tries:0,solved:false,results:[],active:true,bridgeShown:false};
   stopAudio();show('game');render();
 }
@@ -412,7 +441,8 @@ function render(){
     $('#options').innerHTML=T.opts.map((o,k)=>`<button class="opt" type="button" data-k="${k}"><span class="mark" aria-hidden="true"></span><span>${esc(o.t)}</span></button>`).join('');
     $('#options').hidden=false;drawGraph(q,false);
   }else{
-    $('#prompt').innerHTML='<h3>איזה קטע בגרף מתאים לחלק המודגש?</h3><p class="story">'+q.parts.map((p,k)=>k===T.target?`<mark>${esc(p)}</mark>`:esc(p)).join(' ')+'</p><p>לחצו על הקטע המתאים בגרף.</p>';
+    T.done={};T.sel=null;T.count=0;
+    $('#prompt').innerHTML=`<h3>התאימו כל משפט לקטע בגרף</h3><p>גררו משפט אל הקטע המתאים, או לחצו על משפט ואחר כך על הקטע. <b>משפט אחד לא מתאים לאף קטע.</b></p><div class="cards" id="cards">${T.cards.map((c,k)=>`<button class="card-s" type="button" data-k="${k}"><span class="badge" aria-hidden="true"></span><span>${esc(c.t)}</span></button>`).join('')}</div>`;
     $('#options').innerHTML='';$('#options').hidden=true;drawGraph(q,true);
   }
   stats();
@@ -438,29 +468,65 @@ $('#options').addEventListener('click',e=>{
     feedback('<b>עדיין לא.</b> '+o.fb+' נסו שוב.','bad');missed();
   }
 });
-/* חלק 2: לחיצה על קטע */
-function pickSeg(g){
-  if(!S||S.solved||!g.classList.contains('pick'))return;
-  const T=S.tasks[S.i],i=+g.dataset.i,all=segs(T.q.pts),desc=describe(all,i);
-  if(i===T.target){
-    g.classList.add('correct');document.querySelectorAll('#graph .seg.pick').forEach(x=>{x.classList.remove('pick');x.removeAttribute('tabindex');x.removeAttribute('role');});
-    feedback(`<b>נכון!</b> בקטע הזה ${desc}, בדיוק כמו בחלק המודגש: „${esc(T.q.parts[T.target])}”`,'ok');solved();
+/* חלק 2: התאמת משפטים לקטעים — גרירה או שתי לחיצות */
+const BADGE=['א','ב','ג','ד'];
+function selectCard(k){const T=S.tasks[S.i];if(S.solved||T.done[k]!==undefined)return;T.sel=T.sel===k?null:k;
+  document.querySelectorAll('.card-s').forEach(c=>c.classList.toggle('sel',+c.dataset.k===T.sel));
+  document.querySelectorAll('#graph .seg.pick').forEach(g=>g.classList.toggle('armed',T.sel!==null));}
+function tryMatch(k,g){
+  if(!S||S.solved||!g||!g.classList.contains('pick'))return;
+  const T=S.tasks[S.i],card=T.cards[k],i=+g.dataset.i,all=segs(T.q.pts),desc=describe(all,i);
+  const el=document.querySelector(`.card-s[data-k="${k}"]`);
+  if(card.seg===i){
+    const n=BADGE[T.count++];T.done[k]=i;T.sel=null;
+    el.classList.remove('sel');el.classList.add('matched');el.disabled=true;el.querySelector('.badge').textContent=n;
+    g.classList.remove('pick','armed');g.classList.add('correct');g.removeAttribute('tabindex');g.removeAttribute('role');
+    const m=segMid(all[i]);g.insertAdjacentHTML('beforeend',`<g class="seg-badge" transform="translate(${m[0]} ${m[1]})"><circle r="15"/><text y="6" text-anchor="middle">${n}</text></g>`);
+    document.querySelectorAll('#graph .seg.pick').forEach(x=>x.classList.remove('armed'));
+    const left=all.length-T.count;
+    if(left===0){
+      const extra=T.cards.findIndex(c=>c.seg===-1),ex=document.querySelector(`.card-s[data-k="${extra}"]`);ex.classList.add('extra');ex.disabled=true;ex.querySelector('.badge').textContent='✗';
+      feedback(`<b>כל הכבוד!</b> כל הקטעים מתאימים לסיפור. המשפט „${esc(T.cards[extra].t)}” לא מתאים לאף קטע: ${T.cards[extra].fb}`,'ok');solved();
+    }else feedback(`<b>נכון!</b> בקטע הזה ${desc}. נשארו עוד ${left} קטעים.`,'ok');
   }else{
-    g.classList.add('wrong');g.classList.remove('pick');g.removeAttribute('tabindex');g.setAttribute('aria-disabled','true');
-    const sameDir=dirOf(all[i].m)===dirOf(all[T.target].m);
-    const tip=sameDir?(describe(all,i)!==describe(all,T.target)?'הכיוון מתאים, אבל בדקו את <b>הקצב</b>: מהר או לאט?':'הכיוון מתאים, אבל בדקו את <b>הסדר בזמן</b>: מה קרה לפני ומה אחרי?')
-                     :'האם בחלק המודגש הערך <b>עולה, יורד או לא משתנה</b>?';
+    let tip;
+    if(card.seg===-1)tip='המשפט הזה לא מתאים לאף קטע בגרף. '+card.fb;
+    else{const t=card.seg,sameDir=dirOf(all[i].m)===dirOf(all[t].m);
+      tip=sameDir?(describe(all,i)!==describe(all,t)?'הכיוון מתאים, אבל בדקו את <b>הקצב</b>: מהר או לאט?':'הכיוון מתאים, אבל יש עוד קטע כזה. מה עוד המשפט מספר — <b>איפה</b> או <b>מתי</b>?')
+        :'האם במשפט הערך <b>עולה, יורד או לא משתנה</b>?';}
+    T.sel=null;el.classList.remove('sel');el.classList.add('shake');setTimeout(()=>el.classList.remove('shake'),400);
+    document.querySelectorAll('#graph .seg.pick').forEach(x=>x.classList.remove('armed'));
     feedback(`<b>עדיין לא.</b> בקטע שבחרתם ${desc}. ${tip} נסו שוב.`,'bad');missed();
   }
 }
-$('#graph').addEventListener('click',e=>{const g=e.target.closest('.seg.pick');if(g)pickSeg(g);});
-$('#graph').addEventListener('keydown',e=>{const g=e.target.closest('.seg.pick');if(g&&(e.key==='Enter'||e.key===' ')){e.preventDefault();pickSeg(g);}});
+function segMid(sg){return [(X(sg.a[0])+X(sg.b[0]))/2,(Y(sg.a[1])+Y(sg.b[1]))/2];}
+/* לחיצות */
+$('#prompt').addEventListener('click',e=>{const c=e.target.closest('.card-s');if(!c||c.disabled||dragS.moved)return;selectCard(+c.dataset.k);});
+$('#graph').addEventListener('click',e=>{const g=e.target.closest('.seg.pick');const T=S&&S.tasks[S.i];if(!g||!T||T.kind!==2)return;
+  if(T.sel===null){feedback('קודם בחרו משפט, ואחר כך לחצו על הקטע שמתאים לו.','hint');return;}tryMatch(T.sel,g);});
+$('#graph').addEventListener('keydown',e=>{const g=e.target.closest('.seg.pick');if(!g||(e.key!=='Enter'&&e.key!==' '))return;e.preventDefault();const T=S.tasks[S.i];
+  if(T.sel===null){feedback('קודם בחרו משפט, ואחר כך את הקטע שמתאים לו.','hint');return;}tryMatch(T.sel,g);});
+/* גרירה של כרטיס משפט אל קטע */
+const dragS={k:null,ghost:null,moved:false,x0:0,y0:0};
+$('#prompt').addEventListener('pointerdown',e=>{const c=e.target.closest('.card-s');if(!c||c.disabled||S.solved)return;
+  dragS.k=+c.dataset.k;dragS.moved=false;dragS.x0=e.clientX;dragS.y0=e.clientY;dragS.src=c;});
+window.addEventListener('pointermove',e=>{if(dragS.k===null)return;
+  if(!dragS.moved&&Math.hypot(e.clientX-dragS.x0,e.clientY-dragS.y0)<8)return;
+  if(!dragS.moved){dragS.moved=true;const gh=dragS.src.cloneNode(true);gh.classList.add('ghost');gh.style.width=dragS.src.offsetWidth+'px';document.body.appendChild(gh);dragS.ghost=gh;dragS.src.classList.add('lifted');
+    try{dragS.src.releasePointerCapture(e.pointerId);}catch{}}
+  e.preventDefault();dragS.ghost.style.left=(e.clientX-dragS.ghost.offsetWidth/2)+'px';dragS.ghost.style.top=(e.clientY-24)+'px';
+  document.querySelectorAll('#graph .seg.over').forEach(x=>x.classList.remove('over'));
+  const under=document.elementFromPoint(e.clientX,e.clientY),g=under&&under.closest&&under.closest('#graph .seg.pick');if(g)g.classList.add('over');},{passive:false});
+window.addEventListener('pointerup',e=>{if(dragS.k===null)return;const k=dragS.k;dragS.k=null;
+  if(dragS.moved){dragS.ghost.remove();dragS.src.classList.remove('lifted');document.querySelectorAll('#graph .seg.over').forEach(x=>x.classList.remove('over'));
+    const under=document.elementFromPoint(e.clientX,e.clientY),g=under&&under.closest&&under.closest('#graph .seg.pick');if(g)tryMatch(k,g);
+    setTimeout(()=>{dragS.moved=false;},0);}});
 
 $('#hintBtn').onclick=()=>{
   const T=S.tasks[S.i];
   feedback(T.kind===1
     ?'<b>רמז:</b> קודם בדקו מה מראה כל ציר. אחר כך עברו על הקטעים משמאל לימין ושאלו על כל אחד: עולה, יורד או אופקי? תלול (שינוי מהיר) או מתון (שינוי איטי)?'
-    :'<b>רמז:</b> מה קורה בחלק המודגש — הערך עולה, יורד או לא משתנה? אם יש כמה קטעים כאלה, בדקו את הקצב (תלול או מתון) ואת הסדר בזמן: הגרף מתקדם משמאל לימין.','hint');
+    :'<b>רמז:</b> לכל משפט שאלו: הערך עולה, יורד או לא משתנה? מהר או לאט? אם יש שני קטעים דומים, חפשו במשפט רמז למקום (גבוה או נמוך) או לזמן. משפט שאין לו קטע מתאים — הוא המסיח.','hint');
 };
 $('#nextBtn').onclick=()=>{
   if(!S.solved)return;
@@ -484,7 +550,7 @@ const HELP=`<h2 id="dlgTitle">איך משחקים?</h2>
 <p>במסע 12 משימות: 6 בחלק הראשון ו־6 בחלק השני.</p>
 <ul>
 <li><b>בחלק הראשון</b> מופיע גרף. בחרו את הסיפור שמתאר אותו.</li>
-<li><b>בחלק השני</b> מופיע סיפור. לחצו בגרף על הקטע שמתאים לחלק המודגש.</li>
+<li><b>בחלק השני</b> מופיעים משפטים מסיפור. התאימו כל משפט לקטע בגרף — משפט אחד לא מתאים לאף קטע.</li>
 <li>קוראים כל גרף <b>משמאל לימין</b>, לפי הזמן. קטע עולה — הערך גדל; יורד — הערך קטן; אופקי — הערך לא משתנה. קטע תלול מראה שינוי מהיר, וקטע מתון מראה שינוי איטי.</li>
 <li>אפשר לנסות שוב עד שמצליחים. כפתור <img src="${ICON.hint}" alt="">רמז עוזר בלי להוריד מטבעות.</li>
 <li><img src="${ICON.coins}" alt="">מטבעות: פתרון בניסיון הראשון — 2 מטבעות; בניסיון מאוחר יותר — מטבע אחד.</li>
